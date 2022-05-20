@@ -2,6 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 
+  container: {
+    width: '50%'
+  },
+
   text: {
     color: 'white',
     fontFamily: 'monospace',

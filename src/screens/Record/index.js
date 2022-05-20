@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { View, Text } from "react-native";
-import { Accelerometer } from 'expo-sensors';
+import { Accelerometer, Gyroscope } from 'expo-sensors';
 
 import Button from "../../components/CustomButton";
 import ConfigOption from "../../components/ConfigOption";
@@ -25,6 +25,10 @@ export default function Record() {
       name: 'Acelerômetro',
       sensor: Accelerometer,
       active: false,
+    }, {
+      name: 'Giroscópio',
+      sensor: Gyroscope,
+      active: false,
     }])
   }
 
@@ -38,8 +42,7 @@ export default function Record() {
   return (
     <View style={style.container}>
       <View>
-
-        <View style={{ display: isRecording ? 'flex' : 'none' }}>
+        <View style={{ display: isRecording ? 'flex' : 'none', ...style.sensorContainer }}>
           {sensors.map((item, index, array) => (
             <Sensor key={index} name={item.name} sensor={item.sensor} active={item.active} />
           ))}

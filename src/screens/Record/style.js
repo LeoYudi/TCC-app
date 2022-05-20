@@ -17,4 +17,11 @@ export default StyleSheet.create({
     fontWeight: 'bold'
   },
 
+  sensorContainer: {
+    width: '100%',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  }
+
 });

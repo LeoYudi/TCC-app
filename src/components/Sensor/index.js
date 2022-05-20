@@ -27,7 +27,7 @@ export default function Sensor({ name, sensor, active }) {
   }
 
   return (
-    <View>
+    <View style={style.container}>
       <Text style={style.title}>{name}</Text>
       <Text style={style.text}> x: {round(x).toFixed(4)} </Text>
       <Text style={style.text}> y: {round(y).toFixed(4)} </Text>
