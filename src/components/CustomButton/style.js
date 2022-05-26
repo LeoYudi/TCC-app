@@ -4,7 +4,8 @@ export default StyleSheet.create({
   button: {
     width: '100%',
     backgroundColor: '#F9AA33',
-    padding: 10
+    padding: 10,
+    borderRadius: 2
   },
 
   buttonPressed: {

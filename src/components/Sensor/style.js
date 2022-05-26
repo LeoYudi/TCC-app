@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
 
   container: {
-    width: '50%'
+    width: '50%',
+    marginBottom: 10
   },
 
   text: {
@@ -19,6 +20,13 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     color: '#fff'
+  },
+
+  subTitle: {
+    textAlign: 'center',
+    fontSize: 10,
+    color: '#fff',
+    marginBottom: 5
   }
 
 });

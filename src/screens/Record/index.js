@@ -1,35 +1,52 @@
 import { useState, useEffect } from "react";
 import { View, Text } from "react-native";
-import { Accelerometer, Gyroscope } from 'expo-sensors';
+import { Accelerometer, Gyroscope, Magnetometer } from 'expo-sensors';
 
 import Button from "../../components/CustomButton";
 import ConfigOption from "../../components/ConfigOption";
-import style from './style';
 import Sensor from "../../components/Sensor";
+
 import { useRecord } from "../../contexts/Record";
+
+import { startFiles } from "../../services/file";
+
+import style from './style';
 
 export default function Record() {
   const [fast, setFast] = useState(false);
   const [sensors, setSensors] = useState([]);
 
-  const { isRecording, setIsRecording } = useRecord();
+  const { isRecording, startRecording, stopRecording } = useRecord();
 
   useEffect(() => {
     setAllSensors();
 
-    return () => { setIsRecording(false) };
+    return () => { stopRecording() };
   }, [])
 
   const setAllSensors = () => {
-    setSensors([{
+    const allSensors = [{
       name: 'Acelerômetro',
+      filename: 'acelerometro.csv',
+      measure: 'Gs (~9.81 m/s^2)',
       sensor: Accelerometer,
       active: false,
     }, {
       name: 'Giroscópio',
+      filename: 'giroscopio.csv',
+      measure: 'rad/s',
       sensor: Gyroscope,
       active: false,
-    }])
+    }, {
+      name: 'Magnetômetro',
+      filename: 'magnetometro.csv',
+      measure: 'μT',
+      sensor: Magnetometer,
+      active: false,
+    }];
+
+    setSensors(allSensors);
+    startFiles(allSensors);
   }
 
   const setUpdateInterval = bool => {
@@ -44,7 +61,7 @@ export default function Record() {
       <View>
         <View style={{ display: isRecording ? 'flex' : 'none', ...style.sensorContainer }}>
           {sensors.map((item, index, array) => (
-            <Sensor key={index} name={item.name} sensor={item.sensor} active={item.active} />
+            <Sensor key={index} name={item.name} filename={item.filename} measure={item.measure} sensor={item.sensor} active={item.active} />
           ))}
         </View>
 
@@ -54,11 +71,10 @@ export default function Record() {
           {sensors.map((item, index, array) => (
             <ConfigOption
               key={index}
-              text={item.name}
+              text={`${item.name} (${item.measure})`}
               onValueChange={() => {
                 const newSensors = [...sensors];
-                newSensors.splice(index, 1);
-                newSensors.splice(index, 0, { ...item, active: !item.active });
+                newSensors[index].active = !newSensors[index].active;
                 setSensors(newSensors);
               }}
               value={item.active}
@@ -76,7 +92,12 @@ export default function Record() {
       <View style={{ alignSelf: 'flex-end', width: '100%' }}>
         <Button
           text={`${isRecording ? 'Parar de' : 'Começar a'} gravar`}
-          onPress={() => { setIsRecording(!isRecording) }}
+          onPress={() => {
+            if (isRecording)
+              stopRecording();
+            else
+              startRecording();
+          }}
         />
       </View>
     </View>
