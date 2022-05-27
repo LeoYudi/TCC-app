@@ -27,19 +27,19 @@ export default function Record() {
   const setAllSensors = () => {
     const allSensors = [{
       name: 'Acelerômetro',
-      filename: 'acelerometro.csv',
+      filename: 'acelerometro',
       measure: 'Gs (~9.81 m/s^2)',
       sensor: Accelerometer,
       active: false,
     }, {
       name: 'Giroscópio',
-      filename: 'giroscopio.csv',
+      filename: 'giroscopio',
       measure: 'rad/s',
       sensor: Gyroscope,
       active: false,
     }, {
       name: 'Magnetômetro',
-      filename: 'magnetometro.csv',
+      filename: 'magnetometro',
       measure: 'μT',
       sensor: Magnetometer,
       active: false,

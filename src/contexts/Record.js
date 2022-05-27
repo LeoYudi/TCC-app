@@ -7,7 +7,7 @@ export const RecordContext = createContext({});
 export function RecordContextProvider({ children }) {
   const [isRecording, setIsRecording] = useState(false);
 
-  let recordRows = [];
+  let recordRows = {};
 
   useEffect(() => {
     return () => { stopRecording() }
@@ -20,17 +20,19 @@ export function RecordContextProvider({ children }) {
   const stopRecording = () => {
     setIsRecording(false);
 
-    if (recordRows.length > 0) {
-      recordRows = [];
-    }
+    if (Object.keys(recordRows).length > 0)
+      recordRows = {};
   }
 
   const addRow = async (filename, row) => {
-    recordRows.push(row);
+    if (!recordRows[filename])
+      recordRows[filename] = [];
 
-    if (recordRows.length >= 40) {
-      await appendToFile(filename, recordRows);
-      recordRows = [];
+    recordRows[filename].push(row);
+
+    if (recordRows[filename].length >= 40) {
+      await appendToFile(recordRows);
+      recordRows = {};
     }
   }
 
