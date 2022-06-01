@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from './src/screens/Home';
 import Record from './src/screens/Record';
+import Manage from './src/screens/Manage';
+
 import { RecordContextProvider } from './src/contexts/Record';
 
 export default function App() {
@@ -21,6 +23,7 @@ export default function App() {
         <Navigator screenOptions={headerConfig}>
           <Screen name='home' component={Home} options={{ title: 'TCC - Sensores Android' }} />
           <Screen name='record' component={Record} options={{ title: 'Gravar sensores' }} />
+          <Screen name='manage' component={Manage} options={{ title: 'Gerenciamento' }} />
         </Navigator>
       </NavigationContainer>
     </RecordContextProvider>

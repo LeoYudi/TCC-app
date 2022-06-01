@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, Text } from "react-native";
-import { Accelerometer, Gyroscope, Magnetometer } from 'expo-sensors';
+
+import { allSensors } from "../../config/sensors";
 
 import Button from "../../components/CustomButton";
 import ConfigOption from "../../components/ConfigOption";
@@ -25,28 +26,8 @@ export default function Record() {
   }, [])
 
   const setAllSensors = () => {
-    const allSensors = [{
-      name: 'Acelerômetro',
-      filename: 'acelerometro',
-      measure: 'Gs (~9.81 m/s^2)',
-      sensor: Accelerometer,
-      active: false,
-    }, {
-      name: 'Giroscópio',
-      filename: 'giroscopio',
-      measure: 'rad/s',
-      sensor: Gyroscope,
-      active: false,
-    }, {
-      name: 'Magnetômetro',
-      filename: 'magnetometro',
-      measure: 'μT',
-      sensor: Magnetometer,
-      active: false,
-    }];
-
     setSensors(allSensors);
-    startFiles(allSensors);
+    startFiles();
   }
 
   const setUpdateInterval = bool => {

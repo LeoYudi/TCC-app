@@ -1,5 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 
+import Button from '../CustomButton/index';
+
 import style from './style';
 
 export default function Modal({ show, question, noHandler, yesHandler }) {
@@ -8,21 +10,24 @@ export default function Modal({ show, question, noHandler, yesHandler }) {
       <View style={style.container}>
         <Text>{question}</Text>
         <View style={style.buttonContainer}>
-          <TouchableOpacity
-            style={style.yesButton}
-            onPress={yesHandler}
-            activeOpacity={1}
-          >
-            <Text style={style.yesText}>Sim</Text>
-          </TouchableOpacity>
 
-          <TouchableOpacity
-            style={style.noButton}
-            onPress={noHandler}
-            activeOpacity={1}
-          >
-            <Text style={style.noText}>Não</Text>
-          </TouchableOpacity>
+          <View>
+            <Button
+              text={'Sim'}
+              onPress={yesHandler}
+              primary={true}
+              fontSize={15}
+            />
+          </View>
+          <View>
+            <Button
+              text={'Não'}
+              onPress={noHandler}
+              primary={false}
+              fontSize={15}
+            />
+          </View>
+
         </View>
       </View>
     </View>

@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { useState } from 'react';
 
 import Button from '../../components/CustomButton';
-import Modal from '../../components/modal';
+import Modal from '../../components/Modal';
 
 import style from './style.js';
 
@@ -15,13 +15,18 @@ export default function Home({ navigation }) {
       <View style={style.container}>
         <Text style={style.h1}>Ações</Text>
         <View style={style.buttonsContainer}>
-          <Button text='Gravar sensores' onPress={() => { setShowRecordModal(true) }} />
+          <View style={style.button}>
+            <Button text='Gravar sensores' onPress={() => { setShowRecordModal(true) }} />
+          </View>
+          <View style={style.button}>
+            <Button text='Gerenciar gravações' onPress={() => { navigation.navigate('manage') }} />
+          </View>
         </View>
         <StatusBar style="auto" />
       </View>
       <Modal
         show={showRecordModal}
-        question={'Isso irá apagar a gravação anterior salva no localmente. Deseja continuar ?'}
+        question={'Isso irá apagar a gravação anterior salva localmente. Deseja continuar ?'}
         noHandler={() => { setShowRecordModal(false) }}
         yesHandler={() => {
           setShowRecordModal(false);

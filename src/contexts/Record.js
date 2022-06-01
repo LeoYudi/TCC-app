@@ -30,7 +30,7 @@ export function RecordContextProvider({ children }) {
 
     recordRows[filename].push(row);
 
-    if (recordRows[filename].length >= 40) {
+    if (recordRows[filename].length >= 20) {
       await appendToFile(recordRows);
       recordRows = {};
     }

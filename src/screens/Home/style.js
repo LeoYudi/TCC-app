@@ -12,6 +12,10 @@ export default StyleSheet.create({
     padding: 20
   },
 
+  button: {
+    marginBottom: 10
+  },
+
   h1: {
     color: '#fff',
     fontWeight: 'bold',

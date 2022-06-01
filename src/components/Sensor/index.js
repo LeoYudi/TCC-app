@@ -23,7 +23,7 @@ export default function Sensor({ name, filename, measure, sensor, active }) {
   const subscribe = () => {
     setSubscription(sensor.addListener(
       async data => {
-        await addRow(filename, `${data.x}, ${data.y}, ${data.z}, ${(new Date()).getTime()},\n`);
+        await addRow(filename, `${data.x},${data.y},${data.z},${(new Date()).getTime()}\n`);
         setData(data);
       }
     ));
