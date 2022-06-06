@@ -1,18 +1,33 @@
-import { StatusBar } from "expo-status-bar";
-import { View, Text, TextInput, Keyboard } from "react-native";
-import { useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { View, Text, TextInput, Keyboard } from 'react-native';
+import { useState, useEffect } from 'react';
 
-import Button from "../../components/CustomButton";
+import Button from '../../components/CustomButton';
+import Loading from '../../components/Loading';
+import AlertModal from '../../components/AlertModal';
 
-import { parseToUpload } from "../../services/file";
-import { postRequest } from "../../services/api";
+import { parseToUpload } from '../../services/file';
+import { post } from '../../services/api';
 
 import style from './style';
 
 export default function Manage({ navigation }) {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const [recordName, setRecordName] = useState('');
+  const [showResponseModal, setShowResponseModal] = useState(false);
+  const [apiResponse, setApiResponse] = useState('');
+  const [recordDescription, setRecordDescription] = useState('');
   const [isFocus, setFocus] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      Keyboard.dismiss();
+      setFocus(false);
+      setShowRegisterModal(false);
+      setLoading(false);
+      setShowResponseModal(false);
+    }
+  }, [])
 
   return (
     <>
@@ -20,14 +35,16 @@ export default function Manage({ navigation }) {
         <Text style={style.h1}>Ações</Text>
         <View style={style.buttonsContainer}>
           <View style={style.button}>
-            <Button text='Listar gravações' onPress={() => { navigation.navigate('listRecordings') }} />
+            <Button text='Listar gravações' onPress={() => { navigation.navigate('manage/list') }} />
           </View>
           <View style={style.button}>
             <Button text='Upload da gravação local' onPress={() => { setShowRegisterModal(true) }} />
           </View>
         </View>
-        <StatusBar style="auto" />
+        <StatusBar style='auto' />
       </View>
+
+      {/* modals */}
       <View
         style={{
           ...style.background,
@@ -43,8 +60,8 @@ export default function Manage({ navigation }) {
               isFocus ?
                 { ...style.modalInput, ...style.modalInputFocus } :
                 style.modalInput}
-            onChangeText={text => { setRecordName(text) }}
-            value={recordName}
+            onChangeText={text => { setRecordDescription(text) }}
+            value={recordDescription}
             onFocus={() => { setFocus(true) }}
             placeholder='Descrição'
           />
@@ -67,10 +84,22 @@ export default function Manage({ navigation }) {
               <Button
                 text={'Cadastrar'}
                 onPress={async () => {
+                  setShowRegisterModal(false);
+                  setLoading(true);
+                  setFocus(false);
+                  Keyboard.dismiss();
+
                   try {
                     const sensors = await parseToUpload();
-                    const response = await postRequest('/insert-file', { recordName, sensors });
-                    console.log(response);
+                    const response = await post('/insert-file', { description: recordDescription, sensors });
+
+                    if (response.error)
+                      setApiResponse(response.error);
+                    else
+                      setApiResponse(response.msg);
+
+                    setLoading(false);
+                    setShowResponseModal(true);
                   } catch (error) {
                     console.log(error);
                   }
@@ -83,6 +112,13 @@ export default function Manage({ navigation }) {
 
         </View>
       </View>
+
+      <Loading show={isLoading} />
+      <AlertModal
+        show={showResponseModal}
+        text={apiResponse}
+        onPress={() => { setShowResponseModal(false) }}
+      />
     </>
   );
 }
