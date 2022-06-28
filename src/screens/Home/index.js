@@ -21,6 +21,9 @@ export default function Home({ navigation }) {
           <View style={style.button}>
             <Button text='Gerenciar gravações' onPress={() => { navigation.navigate('manage') }} />
           </View>
+          <View style={style.button}>
+            <Button text='Arquivos' onPress={() => { navigation.navigate('files') }} />
+          </View>
         </View>
         <StatusBar style="auto" />
       </View>
