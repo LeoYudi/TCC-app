@@ -4,7 +4,7 @@ export default StyleSheet.create({
 
   container: {
     width: '50%',
-    marginBottom: 10
+    marginBottom: 30
   },
 
   text: {
