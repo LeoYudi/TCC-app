@@ -1,20 +1,22 @@
-import { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { useState, useEffect } from 'react';
+import { View, Text } from 'react-native';
 
-import { allSensors } from "../../config/sensors";
+import { allSensors } from '../../config/sensors';
 
-import Button from "../../components/CustomButton";
-import ConfigOption from "../../components/ConfigOption";
-import Sensor from "../../components/Sensor";
+import Button from '../../components/CustomButton';
+import ConfigOption from '../../components/ConfigOption';
+import Sensor from '../../components/Sensor';
+import Gps from '../../components/Gps';
 
-import { useRecord } from "../../contexts/Record";
+import { useRecord } from '../../contexts/Record';
 
-import { startFiles } from "../../services/file";
+import { startFiles } from '../../services/file';
 
 import style from './style';
 
 export default function Record() {
   const [fast, setFast] = useState(false);
+  const [useGps, setUseGps] = useState(false);
   const [sensors, setSensors] = useState([]);
 
   const { isRecording, startRecording, stopRecording } = useRecord();
@@ -44,6 +46,8 @@ export default function Record() {
           {sensors.map((item, index, array) => (
             <Sensor key={index} name={item.name} filename={item.filename} measure={item.measure} sensor={item.sensor} active={item.active} />
           ))}
+
+          <Gps active={useGps} />
         </View>
 
         <View style={{ ...style.configContainer, display: isRecording ? 'none' : 'flex' }}>
@@ -63,7 +67,13 @@ export default function Record() {
           ))}
 
           <ConfigOption
-            text={'Intervalo de atualização do sensor de 30ms ubioubuihbu'}
+            text={'GPS'}
+            onValueChange={() => { setUseGps(!useGps) }}
+            value={useGps}
+          />
+
+          <ConfigOption
+            text={'Intervalo de atualização do sensor de 30ms'}
             onValueChange={() => { setUpdateInterval(!fast) }}
             value={fast}
           />
@@ -73,9 +83,9 @@ export default function Record() {
       <View style={{ alignSelf: 'flex-end', width: '100%' }}>
         <Button
           text={`${isRecording ? 'Parar de' : 'Começar a'} gravar`}
-          onPress={() => {
+          onPress={async () => {
             if (isRecording)
-              stopRecording();
+              await stopRecording();
             else
               startRecording();
           }}
