@@ -17,11 +17,13 @@ export function RecordContextProvider({ children }) {
     setIsRecording(true);
   }
 
-  const stopRecording = () => {
+  const stopRecording = async () => {
     setIsRecording(false);
 
-    if (Object.keys(recordRows).length > 0)
+    if (Object.keys(recordRows).length > 0) {
+      await appendToFile(recordRows);
       recordRows = {};
+    }
   }
 
   const addRow = async (filename, row) => {
