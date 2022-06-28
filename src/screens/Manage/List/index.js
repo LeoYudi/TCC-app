@@ -22,8 +22,10 @@ export default function List({ navigation }) {
   const [recordClicked, setRecordClicked] = useState(null);
 
   const getRecords = async () => {
+    setLoading(true);
     const response = await get('/records');
     setRecords(response);
+    setLoading(false);
   }
 
   useEffect(() => {
