@@ -42,7 +42,7 @@ const appendToFile = async (recordRows) => {
 };
 
 const parseToUpload = async () => {
-  const result = {};
+  const result = { sensors: {} };
 
   for (const sensor of allSensors) {
     const file = await getFileByName(`${sensor.filename}.csv`);
@@ -51,8 +51,10 @@ const parseToUpload = async () => {
     if (rows.length <= 1)
       continue;
 
-    result[sensor.filename] = file;
+    result.sensors[sensor.filename] = file;
   }
+
+  result.location = await getFileByName(`${gpsConfig.filename}.csv`);
 
   return result;
 };

@@ -90,8 +90,8 @@ export default function Manage({ navigation }) {
                   Keyboard.dismiss();
 
                   try {
-                    const sensors = await parseToUpload();
-                    const response = await post('/insert-file', { description: recordDescription, sensors });
+                    const data = await parseToUpload();
+                    const response = await post('/insert-file', { description: recordDescription, ...data });
 
                     if (response.error)
                       setApiResponse(response.error);
