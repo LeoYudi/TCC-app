@@ -35,7 +35,7 @@ const remove = async (url) => {
     }).then(data => res(data.json()))
       .catch(error => rej(error))
   });
-}
+};
 
 export {
   post,
