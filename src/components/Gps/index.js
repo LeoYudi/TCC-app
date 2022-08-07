@@ -41,7 +41,7 @@ export default function Gps({ active }) {
 
   useEffect(() => {
     (async () => {
-      const { status } = await GPS.requestBackgroundPermissionsAsync();
+      const { status } = await GPS.requestForegroundPermissionsAsync();
 
       if (status !== 'granted') {
         console.log(status);
