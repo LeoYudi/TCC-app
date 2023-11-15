@@ -30,11 +30,18 @@
         "ACCESS_FINE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "FOREGROUND_SERVICE"
-      ]
+      ],
+      "package": "com.lyh99.tccsensors"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": ""
+    "description": "",
+    "extra": {
+      "eas": {
+        "projectId": "fe261cdf-37f6-45f3-9bb7-ce99e395f124"
+      }
+    },
+    "owner": "lyh99"
   }
 }
